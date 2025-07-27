@@ -1,4 +1,3 @@
-
 const { useState, useEffect, useContext, createContext, useCallback, useRef } = React;
 
 // Application Context
@@ -34,79 +33,91 @@ const appData = {
             "id": 1,
             "name": "Logo Design",
             "icon": "🎨",
-            "description": "AI + human-made logos with revisions",
+            "description": "Logos with multiple revisions",
+            "original_price": "₹199-₹399",
             "price": "₹149-₹299",
+            // "discount_percentage": 25,
             "features": ["Multiple concepts", "Unlimited revisions", "Vector files", "Brand guidelines"]
         },
         {
             "id": 2,
-            "name": "Resume Builder",
+            "name": "Resume",
             "icon": "📄",
             "description": "Templates + custom resume writing",
+            "original_price": "₹149-₹249",
             "price": "₹99-₹199",
+            // "discount_percentage": 33,
             "features": ["ATS-friendly format", "Custom writing", "Multiple templates", "Cover letter"]
         },
         {
             "id": 3,
-            "name": "Portfolio Builder",
+            "name": "Portfolio website",
             "icon": "💼",
             "description": "Personal web pages to showcase work",
+            "original_price": "₹399-₹649",
             "price": "₹299-₹499",
-            "features": ["Responsive design", "Custom domain", "SEO optimized", "Easy updates"]
+            // "discount_percentage": 25,
+            "features": ["Responsive design", "Custom domain", "Easy updates"]
         },
         {
             "id": 4,
             "name": "One-Page Website",
             "icon": "🌐",
             "description": "Startup pages, event registration pages",
+            "original_price": "₹699-₹1299",
             "price": "₹499-₹999",
+            // "discount_percentage": 30,
             "features": ["Mobile responsive", "Contact forms", "Social integration", "Fast loading"]
         },
         {
             "id": 5,
-            "name": "Poster & Social Media",
+            "name": "Poster & Business cards",
             "icon": "📱",
             "description": "Eye-catching event posters, reels thumbnails",
+            "original_price": "₹149-₹349",
             "price": "₹99-₹249",
+            // "discount_percentage": 33,
             "features": ["Multiple formats", "Social media ready", "Print quality", "Brand consistency"]
         },
-        {
-            "id": 6,
-            "name": "AI Tools Access",
-            "icon": "🤖",
-            "description": "Tools like image upscalers, blog writers",
-            "price": "₹99/month",
-            "features": ["Premium AI tools", "Unlimited usage", "Priority support", "New tools added"]
-        },
-        {
-            "id": 7,
-            "name": "Mentorship Blogs",
-            "icon": "📚",
-            "description": "Tips for freelancing, career, growth",
-            "price": "Free",
-            "features": ["Weekly articles", "Expert insights", "Career guidance", "Industry trends"]
-        }
+        // {
+        //     "id": 6,
+        //     "name": "AI Tools Access",
+        //     "icon": "🤖",
+        //     "description": "Tools like image upscalers, blog writers",
+        //     "original_price": "₹149/month",
+        //     "price": "₹99/month",
+        //     // "discount_percentage": 33,
+        //     "features": ["Premium AI tools", "Unlimited usage", "Priority support", "New tools added"]
+        // },
+        // {
+        //     "id": 7,
+        //     "name": "Mentorship Blogs",
+        //     "icon": "📚",
+        //     "description": "Tips for freelancing, career, growth",
+        //     "price": "Free",
+        //     "features": ["Weekly articles", "Expert insights", "Career guidance", "Industry trends"]
+        // }
     ],
     "pricing_packages": [
         {
             "name": "Starter Pack",
             "price": "₹399",
-            "original_price": "₹499",
-            "services": ["Logo Design", "Resume Builder"],
+            "original_price": "₹699",
+            "services": ["Personal Portfolio website", "Resume Builder"],
             "popular": false
         },
         {
             "name": "Creator Pack",
             "price": "₹799",
             "original_price": "₹999",
-            "services": ["Logo Design", "Portfolio Builder", "Social Media Pack"],
+            "services": ["Logo Design", "One Website Page", "Business card"],
             "popular": true
         },
         {
             "name": "Startup Launch",
-            "price": "₹1499",
-            "original_price": "₹1999",
-            "services": ["Logo Design", "One-Page Website", "Social Media Pack", "Brand Guidelines"],
+            "price": "₹999",
+            "original_price": "₹1499",
+            "services": ["Logo Design", "Landing Website", "Posters", "Brand Guidelines"],
             "popular": false
         }
     ],
@@ -140,9 +151,9 @@ const appData = {
         {"number": "150+", "label": "Happy Clients"}
     ],
     "contact": {
-        "email": "hello@nexora.co.in",
-        "phone": "+91 98765 43210",
-        "address": "Bangalore, Karnataka, India",
+        "email": "nexora.coreteam@gmail.com",
+        "phone": "+91 77939 14091, +91 99631 11874",
+        "address": "Hyderabad, Telangana, India",
         "social": {
             "instagram": "@nexora_design",
             "linkedin": "nexora-design",
@@ -315,15 +326,30 @@ const Toast = ({ toasts }) => {
 const Header = () => {
     const { scrollToSection, activeSection, mobileMenuOpen, setMobileMenuOpen } = useAppContext();
     const { theme, toggleTheme } = useTheme();
-    const [isScrolled, setIsScrolled] = useState(false);
+    const [isScrolled, setIsScrolled] = React.useState(false);
+    const [currentTheme, setCurrentTheme] = React.useState('light'); // 'light' or 'dark' from section data-theme
 
-    useEffect(() => {
+    React.useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 50);
         };
 
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    React.useEffect(() => {
+        const sections = document.querySelectorAll('section[data-theme]');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    setCurrentTheme(entry.target.getAttribute('data-theme') || 'light');
+                }
+            });
+        }, { threshold: 0.5 });
+
+        sections.forEach(section => observer.observe(section));
+        return () => sections.forEach(section => observer.unobserve(section));
     }, []);
 
     const navItems = [
@@ -335,14 +361,46 @@ const Header = () => {
         { id: 'booking', label: 'Contact' }
     ];
 
-    return React.createElement('header', {
-        className: `header ${isScrolled ? 'scrolled' : ''}`
-    },
+    // Construct header className dynamically based on scroll and theme
+    const headerClass = `header ${isScrolled ? 'scrolled' : ''} ${currentTheme === 'dark' ? 'dark-nav' : 'light-nav'}`;
+
+    return React.createElement('header', { className: headerClass },
         React.createElement('div', { className: 'nav-container' },
             React.createElement('div', {
                 className: 'logo',
-                onClick: () => scrollToSection('home')
-            }, appData.company.name),
+                onClick: () => scrollToSection('home'),
+                style: { 
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    height: '38px', // Increased height
+                    padding: '7px 0' // Add some vertical padding
+                }
+            },
+                // Logo image from CDN - Larger and round
+                React.createElement('div', {
+                    style: {
+                        width: '110px',
+                        height: '110px',
+                        borderRadius: '50%',
+                        overflow: 'hidden',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }
+                },
+                    React.createElement('img', {
+                        src: 'https://s6.imgcdn.dev/Y4fGdl.png',
+                        alt: 'Nexora Logo',
+                        style: { 
+                            width: '80%',
+                            height: '80%',
+                            objectFit: 'contain',
+                            borderRadius: '50%'
+                        }
+                    })
+                )
+            ),
 
             React.createElement('nav', {
                 className: `nav-menu ${mobileMenuOpen ? 'open' : ''}`
@@ -359,35 +417,10 @@ const Header = () => {
                     }, item.label)
                 )
             ),
-
-            React.createElement('button', {
-                className: 'btn btn--outline ml-16',
-                onClick: () => scrollToSection('order-status')
-            }, 'Order Status'),
-
-            React.createElement('div', { className: 'flex items-center gap-16' },
-                React.createElement('button', {
-                    className: 'theme-toggle',
-                    onClick: toggleTheme,
-                    'aria-label': 'Toggle theme'
-                },
-                    React.createElement('i', {
-                        className: `fas fa-${theme === 'light' ? 'moon' : 'sun'}`
-                    })
-                ),
-                React.createElement('button', {
-                    className: 'mobile-menu-toggle',
-                    onClick: () => setMobileMenuOpen(!mobileMenuOpen),
-                    'aria-label': 'Toggle menu'
-                },
-                    React.createElement('i', {
-                        className: `fas fa-${mobileMenuOpen ? 'times' : 'bars'}`
-                    })
-                )
-            )
         )
     );
 };
+
 
 
 
@@ -454,7 +487,13 @@ const HeroSection = () => {
         id: 'home',
         className: 'hero',
         ref: heroRef,
-        style: { position: 'relative' }
+        'data-theme': 'light',
+        style: { 
+            position: 'relative',
+            backgroundColor: '#000000',
+            color: '#111111',
+            padding: '80px 0'
+        }
     },
         React.createElement('canvas', {
             ref: canvasRef,
@@ -468,15 +507,23 @@ const HeroSection = () => {
             }
         }),
         React.createElement('div', { className: 'container hero-content', style: { position: 'relative', zIndex: 1 } },
-            React.createElement('h1', { className: 'fade-in' }, appData.company.tagline),
-            React.createElement('p', { className: 'fade-in' }, appData.company.description),
+            React.createElement('h1', { 
+            className: 'fade-in',
+            style: { color: 'black' }
+        }, appData.company.tagline),
+        React.createElement('p', { 
+            className: 'fade-in',
+            style: { color: 'black' }
+        }, appData.company.description),
             React.createElement('div', { className: 'cta-buttons fade-in' },
                 React.createElement('button', {
                     className: 'btn-cta-primary',
+                    style: { color: 'black' },
                     onClick: () => scrollToSection('booking')
                 }, 'Start Your Project'),
                 React.createElement('button', {
                     className: 'btn-cta-secondary',
+                    style: { color: 'black' },
                     onClick: () => scrollToSection('portfolio')
                 }, 'View Portfolio')
             )
@@ -490,7 +537,8 @@ const ServicesSection = () => {
 
     return React.createElement('section', {
         id: 'services',
-        className: 'services'
+        className: 'services',
+        'data-theme': 'light'
     },
         React.createElement('div', { className: 'container' },
             React.createElement('h2', null, 'Our Services'),
@@ -507,7 +555,14 @@ const ServicesSection = () => {
                         React.createElement('span', { className: 'service-icon' }, service.icon),
                         React.createElement('h3', null, service.name),
                         React.createElement('p', null, service.description),
-                        React.createElement('div', { className: 'service-price' }, service.price),
+                        React.createElement('div', { className: 'service-pricing' },
+                            service.original_price ? 
+                                React.createElement('div', { className: 'price-container' },
+                                    React.createElement('span', { className: 'original-price' }, service.original_price),
+                                    React.createElement('span', { className: 'current-price' }, service.price)
+                                )
+                            : React.createElement('span', { className: 'current-price' }, service.price)
+                        ),
                         React.createElement('ul', { className: 'service-features' },
                             service.features.map((feature, index) =>
                                 React.createElement('li', { key: index }, feature)
@@ -549,7 +604,8 @@ const HowItWorksSection = () => {
 
     return React.createElement('section', {
         id: 'how-it-works',
-        className: 'how-it-works'
+        className: 'how-it-works',
+        'data-theme': 'dark'
     },
         React.createElement('div', { className: 'container' },
             React.createElement('h2', { className: 'text-center' }, 'How It Works'),
@@ -560,9 +616,9 @@ const HowItWorksSection = () => {
                 steps.map((step, index) =>
                     React.createElement('div', {
                         key: index,
-                        className: 'step fade-in'
+                        className: 'step fade-in',
                     },
-                        React.createElement('div', { className: 'step-number' }, step.number),
+                        React.createElement('div', { className: 'step-number', style: { color: 'black' } }, step.number),
                         React.createElement('h3', null, step.title),
                         React.createElement('p', null, step.description)
                     )
@@ -583,7 +639,8 @@ const PricingSection = () => {
 
     return React.createElement('section', {
         id: 'pricing',
-        className: 'pricing'
+        className: 'pricing',
+        'data-theme': 'dark'
     },
         React.createElement('div', { className: 'container' },
             React.createElement('h2', { className: 'text-center' }, 'Pricing Packages'),
@@ -644,7 +701,8 @@ const PortfolioSection = () => {
 
     return React.createElement('section', {
         id: 'portfolio',
-        className: 'portfolio'
+        className: 'portfolio',
+        'data-theme': 'dark'
     },
         React.createElement('div', { className: 'container' },
             React.createElement('h2', { className: 'text-center' }, 'Our Portfolio'),
@@ -656,7 +714,8 @@ const PortfolioSection = () => {
                     React.createElement('button', {
                         key: filter.id,
                         className: `filter-btn ${portfolioFilter === filter.id ? 'active' : ''}`,
-                        onClick: () => setPortfolioFilter(filter.id)
+                        onClick: () => setPortfolioFilter(filter.id),
+                        style: { color: portfolioFilter === filter.id ? 'black' : 'white', fontWeight:portfolioFilter === filter.id ? 'bold' : 'bold' }
                     }, filter.label)
                 )
             ),
@@ -682,7 +741,7 @@ const PortfolioSection = () => {
 
 // Stats Section
 const StatsSection = () => {
-    return React.createElement('section', { className: 'stats' },
+    return React.createElement('section', { className: 'stats', 'data-theme': 'light' },
         React.createElement('div', { className: 'container' },
             React.createElement('div', { className: 'stats-grid' },
                 appData.stats.map((stat, index) =>
@@ -690,8 +749,8 @@ const StatsSection = () => {
                         key: index,
                         className: 'stat fade-in'
                     },
-                        React.createElement('span', { className: 'stat-number' }, stat.number),
-                        React.createElement('span', { className: 'stat-label' }, stat.label)
+                        React.createElement('span', { className: 'stat-number', style: { color: 'black' } }, stat.number),
+                        React.createElement('span', { className: 'stat-label', style: { color: 'black' } }, stat.label)
                     )
                 )
             )
@@ -717,7 +776,8 @@ const TestimonialsSection = () => {
 
     return React.createElement('section', {
         id: 'testimonials',
-        className: 'testimonials'
+        className: 'testimonials',
+        'data-theme': 'dark'
     },
         React.createElement('div', { className: 'container' },
             React.createElement('h2', { className: 'text-center' }, 'What Our Clients Say'),
@@ -809,12 +869,16 @@ const BookingSection = () => {
         };
 
         try {
+            // 1. Push order to Firebase to get the key
             const ref = await db.ref('orders').push(orderData);
-            // Generate order id: NEX10 + last 3 chars of firebase key
-            const shortId = ref.key.slice(-3).toUpperCase();
-            const customOrderId = `NEX10${shortId}`;
 
-            setOrderId(customOrderId);
+            // 2. Generate readable orderId
+            const readableOrderId = `NEX10${ref.key.slice(-3).toUpperCase()}`;
+
+            // 3. Update the order with the readable orderId
+            await db.ref(`orders/${ref.key}`).update({ orderId: readableOrderId });
+
+            setOrderId(readableOrderId);
             setShowOrderPopup(true);
             addToast('Your project request has been submitted! We\'ll get back to you within 24 hours.');
             resetBookingForm();
@@ -836,7 +900,8 @@ const BookingSection = () => {
 
     return React.createElement('section', {
         id: 'booking',
-        className: 'booking-section'
+        className: 'booking-section',
+        'data-theme': 'dark'
     },
         React.createElement('div', { className: 'container' },
             React.createElement('h2', { className: 'text-center' }, 'Start Your Project'),
@@ -851,7 +916,8 @@ const BookingSection = () => {
                             key: step,
                             className: `step-indicator-item ${
                                 step === bookingStep ? 'active' : step < bookingStep ? 'completed' : ''
-                            }`
+                            }`,
+                            style: step === bookingStep ? { color: 'black', fontWeight: 'bold' } : {}
                         }, step)
                     )
                 ),
@@ -1173,7 +1239,8 @@ const OrderStatusSection = () => {
 
     return React.createElement('section', {
         id: 'order-status',
-        className: 'order-status-section'
+        className: 'order-status-section',
+        'data-theme': 'dark'
     },
         React.createElement('div', {
             className: 'container max-w-4xl'
@@ -1231,57 +1298,103 @@ const OrderStatusSection = () => {
                             className: 'order-title'
                         }, 'Order Status'),
                         React.createElement('div', { className: 'order-id-display' },
-                            `Order ID: NEX10${order.id.slice(-3).toUpperCase()}`
+                            `Order ID: ${order.orderId || `NEX10${order.id.slice(-3).toUpperCase()}`}`
                         )
                     ),
 
-                    React.createElement('div', { className: 'progress-container' },
-                        React.createElement('div', { className: 'progress-steps' },
+                    // If rejected, show only rejection message (no progress bar)
+                    order.status === 'rejected'
+                        ? React.createElement('div', null,
                             React.createElement('div', {
-                                className: 'progress-line'
-                            },
-                                React.createElement('div', {
-                                    className: 'progress-line-fill',
-                                    style: { width: `${order.progress || 0}%` }
-                                })
-                            ),
-
-                            progressSteps.map((step, index) =>
-                                React.createElement('div', {
-                                    key: step.label,
-                                    className: `progress-step-item ${getStepStatus(step.value, order.progress || 0)}`
-                                },
-                                    React.createElement('div', {
-                                        className: 'progress-step-circle'
-                                    }, getStepIcon(step, order.progress || 0)),
+                                style: {
+                                    color: '#dc3545',
+                                    fontFamily: 'Inter, sans-serif',
+                                    fontSize: '16px',
+                                    margin: '16px 0',
+                                    textAlign: 'center',
+                                    fontWeight: 500
+                                }
+                            }, 'Project Rejected'),
+                            order.rejectionReason && React.createElement('div', {
+                                style: {
+                                    color: '#dc3545',
+                                    fontFamily: 'Inter, sans-serif',
+                                    fontSize: '16px',
+                                    margin: '8px 0 16px 0',
+                                    textAlign: 'center',
+                                    fontWeight: 500
+                                }
+                            }, `Message From Administrator: ${order.rejectionReason}`),
+                            React.createElement('div', { className: 'order-details' },
+                                React.createElement('div', { className: 'detail-row' },
+                                    React.createElement('span', { className: 'detail-label' }, 'Status:'),
                                     React.createElement('span', {
-                                        className: 'progress-step-label'
-                                    }, step.label)
+                                        className: 'status-badge rejected'
+                                    }, 'Rejected')
+                                ),
+                                React.createElement('div', { className: 'detail-row' },
+                                    React.createElement('span', { className: 'detail-label' }, 'Customer:'),
+                                    React.createElement('span', null, order.name)
+                                ),
+                                React.createElement('div', { className: 'detail-row' },
+                                    React.createElement('span', { className: 'detail-label' }, 'Services:'),
+                                    React.createElement('span', null, order.services ? order.services.join(', ') : 'N/A')
+                                ),
+                                React.createElement('div', { className: 'detail-row' },
+                                    React.createElement('span', { className: 'detail-label' }, 'Created:'),
+                                    React.createElement('span', null, new Date(order.createdAt).toLocaleDateString())
                                 )
                             )
                         )
-                    ),
+                        // Otherwise, show progress bar and details
+                        : React.createElement(React.Fragment, null,
+                            React.createElement('div', { className: 'progress-container' },
+                                React.createElement('div', { className: 'progress-steps' },
+                                    React.createElement('div', {
+                                        className: 'progress-line'
+                                    },
+                                        React.createElement('div', {
+                                            className: 'progress-line-fill',
+                                            style: { width: `${order.progress || 0}%` }
+                                        })
+                                    ),
 
-                    React.createElement('div', { className: 'order-details' },
-                        React.createElement('div', { className: 'detail-row' },
-                            React.createElement('span', { className: 'detail-label' }, 'Status:'),
-                            React.createElement('span', { 
-                                className: `status-badge ${getProgressStatus(order.progress || 0).toLowerCase().replace(' ', '-')}` 
-                            }, getProgressStatus(order.progress || 0))
-                        ),
-                        React.createElement('div', { className: 'detail-row' },
-                            React.createElement('span', { className: 'detail-label' }, 'Customer:'),
-                            React.createElement('span', null, order.name)
-                        ),
-                        React.createElement('div', { className: 'detail-row' },
-                            React.createElement('span', { className: 'detail-label' }, 'Services:'),
-                            React.createElement('span', null, order.services ? order.services.join(', ') : 'N/A')
-                        ),
-                        React.createElement('div', { className: 'detail-row' },
-                            React.createElement('span', { className: 'detail-label' }, 'Created:'),
-                            React.createElement('span', null, new Date(order.createdAt).toLocaleDateString())
+                                    progressSteps.map((step, index) =>
+                                        React.createElement('div', {
+                                            key: step.label,
+                                            className: `progress-step-item ${getStepStatus(step.value, order.progress || 0)}`
+                                        },
+                                            React.createElement('div', {
+                                                className: 'progress-step-circle'
+                                            }, getStepIcon(step, order.progress || 0)),
+                                            React.createElement('span', {
+                                                className: 'progress-step-label'
+                                            }, step.label)
+                                        )
+                                    )
+                                )
+                            ),
+                            React.createElement('div', { className: 'order-details' },
+                                React.createElement('div', { className: 'detail-row' },
+                                    React.createElement('span', { className: 'detail-label' }, 'Status:'),
+                                    React.createElement('span', {
+                                        className: `status-badge ${getProgressStatus(order.progress || 0).toLowerCase().replace(' ', '-')}`
+                                    }, getProgressStatus(order.progress || 0))
+                                ),
+                                React.createElement('div', { className: 'detail-row' },
+                                    React.createElement('span', { className: 'detail-label' }, 'Customer:'),
+                                    React.createElement('span', null, order.name)
+                                ),
+                                React.createElement('div', { className: 'detail-row' },
+                                    React.createElement('span', { className: 'detail-label' }, 'Services:'),
+                                    React.createElement('span', null, order.services ? order.services.join(', ') : 'N/A')
+                                ),
+                                React.createElement('div', { className: 'detail-row' },
+                                    React.createElement('span', { className: 'detail-label' }, 'Created:'),
+                                    React.createElement('span', null, new Date(order.createdAt).toLocaleDateString())
+                                )
+                            )
                         )
-                    )
                 )
             )
         )

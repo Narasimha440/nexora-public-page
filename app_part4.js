@@ -1,4 +1,3 @@
-
 // Order Status Section with 4-step progress tracking
 const OrderStatusSection = () => {
     const [inputId, setInputId] = useState('');
@@ -147,53 +146,81 @@ const OrderStatusSection = () => {
                         )
                     ),
 
-                    React.createElement('div', { className: 'progress-container' },
-                        React.createElement('div', { className: 'progress-steps' },
-                            React.createElement('div', {
-                                className: 'progress-line'
-                            },
-                                React.createElement('div', {
-                                    className: 'progress-line-fill',
-                                    style: { width: `${order.progress || 0}%` }
-                                })
+                    // If rejected, show rejection message
+                    order.status === 'rejected'
+                        ? React.createElement('div', { className: 'order-details' },
+                            React.createElement('div', { className: 'detail-row' },
+                                React.createElement('span', { className: 'detail-label' }, 'Status:'),
+                                React.createElement('span', { className: 'status-badge completed', style: { background: 'rgba(var(--color-error-rgb),0.15)', color: 'var(--color-error)' } }, 'Project Rejected')
+                            ),
+                            React.createElement('div', { className: 'detail-row' },
+                                React.createElement('span', { className: 'detail-label' }, 'Customer:'),
+                                React.createElement('span', null, order.name)
+                            ),
+                            React.createElement('div', { className: 'detail-row' },
+                                React.createElement('span', { className: 'detail-label' }, 'Services:'),
+                                React.createElement('span', null, order.services ? order.services.join(', ') : 'N/A')
+                            ),
+                            React.createElement('div', { className: 'detail-row' },
+                                React.createElement('span', { className: 'detail-label' }, 'Created:'),
+                                React.createElement('span', null, new Date(order.createdAt).toLocaleDateString())
+                            ),
+                            // Placeholder for admin message
+                            React.createElement('div', { className: 'detail-row' },
+                                React.createElement('span', { className: 'detail-label' }, 'Message from Administrator:'),
+                                React.createElement('span', null, order.adminMessage || 'No message provided yet.')
+                            )
+                        )
+                        // Otherwise, show progress bar
+                        : React.createElement(React.Fragment, null,
+                            React.createElement('div', { className: 'progress-container' },
+                                React.createElement('div', { className: 'progress-steps' },
+                                    React.createElement('div', {
+                                        className: 'progress-line'
+                                    },
+                                        React.createElement('div', {
+                                            className: 'progress-line-fill',
+                                            style: { width: `${order.progress || 0}%` }
+                                        })
+                                    ),
+
+                                    progressSteps.map((step, index) =>
+                                        React.createElement('div', {
+                                            key: step.label,
+                                            className: `progress-step-item ${getStepStatus(step.value, order.progress || 0)}`
+                                        },
+                                            React.createElement('div', {
+                                                className: 'progress-step-circle'
+                                            }, getStepIcon(step, order.progress || 0)),
+                                            React.createElement('span', {
+                                                className: 'progress-step-label'
+                                            }, step.label)
+                                        )
+                                    )
+                                )
                             ),
 
-                            progressSteps.map((step, index) =>
-                                React.createElement('div', {
-                                    key: step.label,
-                                    className: `progress-step-item ${getStepStatus(step.value, order.progress || 0)}`
-                                },
-                                    React.createElement('div', {
-                                        className: 'progress-step-circle'
-                                    }, getStepIcon(step, order.progress || 0)),
-                                    React.createElement('span', {
-                                        className: 'progress-step-label'
-                                    }, step.label)
+                            React.createElement('div', { className: 'order-details' },
+                                React.createElement('div', { className: 'detail-row' },
+                                    React.createElement('span', { className: 'detail-label' }, 'Status:'),
+                                    React.createElement('span', { 
+                                        className: `status-badge ${getProgressStatus(order.progress || 0).toLowerCase().replace(' ', '-')}` 
+                                    }, getProgressStatus(order.progress || 0))
+                                ),
+                                React.createElement('div', { className: 'detail-row' },
+                                    React.createElement('span', { className: 'detail-label' }, 'Customer:'),
+                                    React.createElement('span', null, order.name)
+                                ),
+                                React.createElement('div', { className: 'detail-row' },
+                                    React.createElement('span', { className: 'detail-label' }, 'Services:'),
+                                    React.createElement('span', null, order.services ? order.services.join(', ') : 'N/A')
+                                ),
+                                React.createElement('div', { className: 'detail-row' },
+                                    React.createElement('span', { className: 'detail-label' }, 'Created:'),
+                                    React.createElement('span', null, new Date(order.createdAt).toLocaleDateString())
                                 )
                             )
                         )
-                    ),
-
-                    React.createElement('div', { className: 'order-details' },
-                        React.createElement('div', { className: 'detail-row' },
-                            React.createElement('span', { className: 'detail-label' }, 'Status:'),
-                            React.createElement('span', { 
-                                className: `status-badge ${getProgressStatus(order.progress || 0).toLowerCase().replace(' ', '-')}` 
-                            }, getProgressStatus(order.progress || 0))
-                        ),
-                        React.createElement('div', { className: 'detail-row' },
-                            React.createElement('span', { className: 'detail-label' }, 'Customer:'),
-                            React.createElement('span', null, order.name)
-                        ),
-                        React.createElement('div', { className: 'detail-row' },
-                            React.createElement('span', { className: 'detail-label' }, 'Services:'),
-                            React.createElement('span', null, order.services ? order.services.join(', ') : 'N/A')
-                        ),
-                        React.createElement('div', { className: 'detail-row' },
-                            React.createElement('span', { className: 'detail-label' }, 'Created:'),
-                            React.createElement('span', null, new Date(order.createdAt).toLocaleDateString())
-                        )
-                    )
                 )
             )
         )

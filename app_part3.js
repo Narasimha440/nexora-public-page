@@ -1,4 +1,3 @@
-
 // Booking Section with Order ID Generation
 const BookingSection = () => {
     const {
@@ -44,38 +43,32 @@ const BookingSection = () => {
 
     const handleSubmit = async () => {
         setIsSubmitting(true);
-
-        const orderData = {
-            services: selectedPackage 
-                ? selectedPackage.services 
-                : selectedServices.map(s => s.name),
-            package: selectedPackage ? selectedPackage.name : null,
-            name: bookingForm.name,
-            email: bookingForm.email,
-            phone: bookingForm.phone,
-            company: bookingForm.company,
-            projectDescription: bookingForm.projectDescription,
-            timeline: bookingForm.timeline,
-            budget: bookingForm.budget,
-            createdAt: new Date().toISOString(),
-            progress: 0 // initial progress
-        };
-
         try {
-            const ref = await db.ref('orders').push(orderData);
-            // Generate order id: NEX10 + last 3 chars of firebase key
-            const shortId = ref.key.slice(-3).toUpperCase();
-            const customOrderId = `NEX10${shortId}`;
+            // Generate a new Firebase key
+            const newOrderRef = db.ref('orders').push();
+            const orderId = `NEX10${newOrderRef.key.slice(-3).toUpperCase()}`;
 
-            setOrderId(customOrderId);
+            // Prepare order data
+            const orderData = {
+                ...bookingForm,
+                services: selectedServices,
+                package: selectedPackage,
+                createdAt: new Date().toISOString(),
+                progress: 0,
+                status: 'received',
+                orderId // <-- Save the readable order ID in the database
+            };
+
+            // Save to database
+            await newOrderRef.set(orderData);
+
+            setOrderId(orderId);
             setShowOrderPopup(true);
-            addToast('Your project request has been submitted! We\'ll get back to you within 24 hours.');
+            addToast('Order placed successfully!');
             resetBookingForm();
-            setBookingStep(1);
-        } catch (error) {
-            addToast('Failed to submit your request. Please try again.', 'error');
+        } catch (err) {
+            addToast('Error placing order. Please try again.');
         }
-
         setIsSubmitting(false);
     };
 
