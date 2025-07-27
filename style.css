@@ -1,37 +1,49 @@
 :root {
-  /* Primitive Color Tokens */
-  --color-white: rgba(255, 255, 255, 1);
-  --color-black: rgba(0, 0, 0, 1);
-  --color-cream-50: rgba(252, 252, 249, 1);
-  --color-cream-100: rgba(255, 255, 253, 1);
+  /* Custom Logo Color Palette */
+  --color-cream-light: #fef4e8;
+  --color-dark: #111111;
+  --color-white: #111111;
+  --color-cream-warm: #fcddb7;
+  --color-gray-dark: #2a2a2a;
+  --color-black: #000000;
+  
+  /* Primitive Color Tokens - Updated to match logo palette */
+  --color-cream-50: #fef4e8;
+  --color-cream-100: #fcddb7;
   --color-gray-200: rgba(245, 245, 245, 1);
   --color-gray-300: rgba(167, 169, 169, 1);
   --color-gray-400: rgba(119, 124, 124, 1);
-  --color-slate-500: rgba(98, 108, 113, 1);
-  --color-brown-600: rgba(94, 82, 64, 1);
-  --color-charcoal-700: rgba(31, 33, 33, 1);
-  --color-charcoal-800: rgba(38, 40, 40, 1);
-  --color-slate-900: rgba(19, 52, 59, 1);
-  --color-teal-300: rgba(50, 184, 198, 1);
-  --color-teal-400: rgba(45, 166, 178, 1);
-  --color-teal-500: rgba(33, 128, 141, 1);
-  --color-teal-600: rgba(29, 116, 128, 1);
-  --color-teal-700: rgba(26, 104, 115, 1);
-  --color-teal-800: rgba(41, 150, 161, 1);
+  --color-slate-500: #2a2a2a;
+  --color-brown-600: #fcddb7;
+  --color-charcoal-700: #2a2a2a;
+  --color-charcoal-800: #111111;
+  --color-slate-900: #111111;
+  --color-teal-300: #fcddb7;
+  --color-teal-400: #fcddb7;
+  --color-teal-500: #fcddb7;
+  --color-teal-600: #fcddb7;
+  --color-teal-700: #fcddb7;
+  --color-teal-800: #fcddb7;
   --color-red-400: rgba(255, 84, 89, 1);
   --color-red-500: rgba(192, 21, 47, 1);
-  --color-orange-400: rgba(230, 129, 97, 1);
-  --color-orange-500: rgba(168, 75, 47, 1);
+  --color-orange-400: #fcddb7;
+  --color-orange-500: #fcddb7;
 
-  /* RGB versions for opacity control */
-  --color-brown-600-rgb: 94, 82, 64;
-  --color-teal-500-rgb: 33, 128, 141;
-  --color-slate-900-rgb: 19, 52, 59;
-  --color-slate-500-rgb: 98, 108, 113;
+  /* RGB versions for opacity control - Updated for logo palette */
+  --color-cream-light-rgb: 254, 244, 232;
+  --color-dark-rgb: 17, 17, 17;
+  --color-white-rgb: 255, 255, 255;
+  --color-cream-warm-rgb: 252, 221, 183;
+  --color-gray-dark-rgb: 42, 42, 42;
+  --color-black-rgb: 0, 0, 0;
+  --color-brown-600-rgb: 252, 221, 183;
+  --color-teal-500-rgb: 252, 221, 183;
+  --color-slate-900-rgb: 17, 17, 17;
+  --color-slate-500-rgb: 42, 42, 42;
   --color-red-500-rgb: 192, 21, 47;
   --color-red-400-rgb: 255, 84, 89;
-  --color-orange-500-rgb: 168, 75, 47;
-  --color-orange-400-rgb: 230, 129, 97;
+  --color-orange-500-rgb: 252, 221, 183;
+  --color-orange-400-rgb: 252, 221, 183;
 
   /* Background color tokens (Light Mode) */
   --color-bg-1: rgba(59, 130, 246, 0.08); /* Light blue */
@@ -43,27 +55,27 @@
   --color-bg-7: rgba(236, 72, 153, 0.08); /* Light pink */
   --color-bg-8: rgba(6, 182, 212, 0.08); /* Light cyan */
 
-  /* Semantic Color Tokens (Light Mode) */
-  --color-background: var(--color-cream-50);
-  --color-surface: var(--color-cream-100);
-  --color-text: var(--color-slate-900);
-  --color-text-secondary: var(--color-slate-500);
-  --color-primary: var(--color-teal-500);
-  --color-primary-hover: var(--color-teal-600);
-  --color-primary-active: var(--color-teal-700);
-  --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
-  --color-secondary-hover: rgba(var(--color-brown-600-rgb), 0.2);
-  --color-secondary-active: rgba(var(--color-brown-600-rgb), 0.25);
-  --color-border: rgba(var(--color-brown-600-rgb), 0.2);
-  --color-btn-primary-text: var(--color-cream-50);
-  --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
-  --color-card-border-inner: rgba(var(--color-brown-600-rgb), 0.12);
+  /* Semantic Color Tokens (Light Mode) - Updated for logo palette */
+  --color-background: var(--color-cream-light);
+  --color-surface: var(--color-white);
+  --color-text: var(--color-dark);
+  --color-text-secondary: var(--color-gray-dark);
+  --color-primary: var(--color-cream-warm);
+  --color-primary-hover: var(--color-cream-warm);
+  --color-primary-active: var(--color-cream-warm);
+  --color-secondary: rgba(var(--color-cream-warm-rgb), 0.12);
+  --color-secondary-hover: rgba(var(--color-cream-warm-rgb), 0.2);
+  --color-secondary-active: rgba(var(--color-cream-warm-rgb), 0.25);
+  --color-border: rgba(var(--color-cream-warm-rgb), 0.3);
+  --color-btn-primary-text: var(--color-dark);
+  --color-card-border: rgba(var(--color-cream-warm-rgb), 0.2);
+  --color-card-border-inner: rgba(var(--color-cream-warm-rgb), 0.15);
   --color-error: var(--color-red-500);
-  --color-success: var(--color-teal-500);
-  --color-warning: var(--color-orange-500);
-  --color-info: var(--color-slate-500);
-  --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
-  --color-select-caret: rgba(var(--color-slate-900-rgb), 0.8);
+  --color-success: var(--color-cream-warm);
+  --color-warning: var(--color-cream-warm);
+  --color-info: var(--color-gray-dark);
+  --color-focus-ring: rgba(var(--color-cream-warm-rgb), 0.4);
+  --color-select-caret: rgba(var(--color-dark-rgb), 0.8);
 
   /* Common style patterns */
   --focus-ring: 0 0 0 3px var(--color-focus-ring);
@@ -142,6 +154,55 @@
   --container-md: 768px;
   --container-lg: 1024px;
   --container-xl: 1280px;
+}
+
+/* Logo styles */
+.logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.logo svg {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.logo:hover svg {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.logo-text {
+  margin-left: 0.5rem;
+  background: linear-gradient(45deg, #2a2b2b, #4a4a4a);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+/* Dark theme adjustments */
+.dark-nav .logo-text {
+  background: linear-gradient(45deg, #ffffff, #e0e0e0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Ensure text is black on #fbdebb background */
+[style*="background-color: #fbdebb"],
+[style*="background-color:#fbdebb"],
+[style*="background: #fbdebb"],
+[style*="background:#fbdebb"],
+.bg-custom-cream {
+  color: #000000 !important;
 }
 
 /* Dark mode colors */
@@ -296,6 +357,34 @@
   --color-warning-rgb: var(--color-orange-500-rgb);
   --color-info-rgb: var(--color-slate-500-rgb);
 }
+
+/* For sections with light background (#f7dcb8) */
+.header.light-nav .nav-menu {
+  color: #1a1a1a; /* very dark text */
+}
+
+/* For sections with dark background (#2a2b2b) */
+.header.dark-nav .nav-menu {
+  color: #fff; /* white text */
+}
+
+/* Also make sure links inside nav-menu inherit this color */
+.header.light-nav .nav-menu a,
+.header.dark-nav .nav-menu a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.header.light-nav .nav-menu a:hover {
+  color: #000; /* pure black on light */
+  font-weight: bold;
+}
+
+.header.dark-nav .nav-menu a:hover {
+  color: #ddd; /* light gray on dark */
+  font-weight: bold;
+}
+
 
 /* Base styles */
 html {
@@ -737,10 +826,6 @@ select.form-control {
     format('woff2');
 }
 
-/* END PERPLEXITY DESIGN SYSTEM */
-/* Modern Nexora Website Styles */
-
-/* Additional modern components */
 .gradient-bg {
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-teal-600) 50%, var(--color-teal-700) 100%);
 }
@@ -1055,6 +1140,35 @@ select.form-control {
   content: '✓';
   color: var(--color-success);
   font-weight: 600;
+}
+
+/* Service Pricing Styles */
+.service-pricing {
+  margin: var(--space-16) 0;
+}
+
+.price-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+
+.original-price {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+.current-price {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  background: rgba(var(--color-cream-warm-rgb), 0.1);
+  padding: var(--space-4) var(--space-8);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
 }
 
 /* How It Works */
